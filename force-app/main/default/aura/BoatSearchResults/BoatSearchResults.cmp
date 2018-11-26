@@ -1,0 +1,85 @@
+<aura:component access="global" controller="BoatSearchResults" >
+	 <aura:method name="search" action="{!c.doSearch}" 
+  				  description="Search Boats by boatTypeId parameter"
+                  access="public" >
+    	<aura:attribute name="boatTypeId" type="String" default="0"/> 
+	</aura:method>
+
+    <aura:attribute name="boatsList" type="Boat__c[]" />
+	<aura:attribute name="showBoats" type="boolean" default="true" />  
+    <aura:handler  name="boatSelect" event="c:BoatSelect" action="{!c.onBoatSelect}"  />
+    <aura:attribute name="selectedBoatId" type="String" default="0" />
+     
+   
+     <!--<lightning:layout multipleRows="true" class="slds-grid_vertical">
+        <aura:iteration items="{!v.boatsList}" var="item">
+            <lightning:layoutItem size="3">
+                <c:BoatTile boat="{!item}"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+    -->
+    <!-- working version
+       <aura:if isTrue="{!v.showBoats}" >
+       		<aura:iteration items="{! v.boatsList }" var="itemArray">
+        	<div class="slds-grid"> 
+            	<aura:iteration items="{! itemArray }" var="item">
+                	<div class="slds-col slds-size_1-of-4 slds-m-around_xx-small">
+            			<c:BoatTile boat="{!item}"/>
+  					</div>
+            	</aura:iteration>
+        	</div>
+        	</aura:iteration>
+    		<aura:set attribute="else">
+         		<div class="slds-align_absolute-center">
+                	<h1>No boats found</h1>
+                </div>
+           </aura:set>
+         </aura:if>     
+-->
+    
+    <!--
+		<aura:iteration items="{!v.boatsList}" var="item" indexVar="index">      
+        <div class="slds-grid">
+           <div class="slds-col slds-size_1-of-4 slds-m-around_xx-small">
+            <c:BoatTile boat="{!item}"/>
+  		</div>
+  		<div class="slds-col slds-size_1-of-4 slds-m-around_xx-small">
+            <c:BoatTile boat="{!item}"/>
+  		</div>
+  		<div class="slds-col slds-size_1-of-4 slds-m-around_xx-small">
+                <c:BoatTile boat="{!item}"/>
+  		</div>
+  		<div class="slds-col slds-size_1-of-4 slds-m-around_xx-small">
+            <c:BoatTile boat="{!item}"/>
+  		</div>
+        
+        </div>        
+        
+	   </aura:iteration>
+   	   -->
+
+<lightning:layout horizontalAlign="center" verticalAlign="center" multipleRows='true'>
+            <lightning:layoutItem flexibility="grow"  class="slds-m-right_small" >
+     <!-- <aura:iteration items="{!v.boatsList}" var="boatVar">
+                 <c:BoatTile boat="{!boatVar}"/>
+                </aura:iteration> -->
+      <aura:if isTrue="{!v.boatsList.length > 0}">
+                <aura:iteration items="{!v.boatsList}" var="boat">
+                    <lightning:layoutItem flexibility="grow" class="slds-m-around_small">
+                        <c:BoatTile  boat="{!boat}"  selected="{!v.selectedBoatId == v.boat.Id ? true : false}" />
+                    </lightning:layoutItem>
+                </aura:iteration>
+                <aura:set attribute="else">
+                    <lightning:layoutItem class="slds-align_absolute-center" flexibility="auto" padding="around-small">
+                        <ui:outputText value="No boats found" />
+                    </lightning:layoutItem>
+                </aura:set>
+            </aura:if>
+
+
+     </lightning:layoutItem>
+    </lightning:layout>
+    
+    
+</aura:component>

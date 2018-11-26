@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" access="global"
+            description="BoatSelected fired from BoatTileController's onBoatClick handler">
+	<aura:attribute name="boat" type="Boat__c" access="global" />
+</aura:event>

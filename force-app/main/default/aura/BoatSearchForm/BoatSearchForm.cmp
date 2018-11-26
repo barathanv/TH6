@@ -1,0 +1,30 @@
+<aura:component controller="BoatSearchResults" implements="force:appHostable" 
+                access="global">
+	
+    <aura:registerEvent name="formsubmit" type="c:FormSubmit" />
+    
+    <aura:attribute name="boattypes" type="BoatType__c[]"  />
+    <aura:attribute name="showNewBtn" type="Boolean" default="true" />
+    <aura:attribute name="selectedBoatType" type="String" />
+    <aura:handler  name="init" action="{!c.doInit}" value="{!this}" /> 
+    <form name="boatSearchForm">  
+        <lightning:layout horizontalAlign="center" verticalAlign="end">
+            <lightning:layoutItem padding="around-small" >
+                    <lightning:select name="selectBoatType" label="" required="false" messageWhenValueMissing="Did you forget to select a boat type?"
+                                      value="{!v.selectedBoatType}"  aura:id="idBoatType"> 
+        			<option value="0">All Types</option>
+        			<aura:iteration items="{!v.boattypes}" var="item">
+            			<option value="{!item.Id}" text="{!item.Name}"></option>
+        			</aura:iteration>
+    	        </lightning:select>   
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small">
+                <lightning:button name="btnSearch"  variant="brand" label="Search"  title="Search" 
+                                  onclick="{!c.onFormSubmit}" />
+            	<aura:if isTrue="{!v.showNewBtn}">
+                <lightning:button name="btnNew"   label="New"  title="New" onclick="{!c.openCreateBoatForm}" />
+                </aura:if>
+            </lightning:layoutItem>
+     	</lightning:layout>
+    </form>
+</aura:component>

@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" 
+                access="global" 
+                description="Main column
+ and right sidebar. On a phone, the regions are of equal width" >
+	<aura:handler name="formsubmit" event="c:FormSubmit"
+        action="{!c.onFormSubmit}"/>
+     <div>
+        <lightning:layout>
+            <lightning:layoutItem flexibility="grow"
+                                  size="{! $Browser.isDesktop ? '12' : '6' }">
+               <lightning:card title="Find a Boat" class="c1">
+					<c:BoatSearchForm />
+    		   </lightning:card>
+                <lightning:card title="Matching Boats">    
+                    <c:BoatSearchResults  aura:id="cmpBoatSrchResultsID" />
+                    
+    			</lightning:card>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="{! $Browser.isDesktop ? '2' : '4' }"
+                                  class="slds-m-left_small">
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    <!--
+    <lightning:card title="Find a Boat" class="c1">
+	<c:BoatSearchForm />
+    </lightning:card>
+	<lightning:card title="Matching Boats">    
+    <c:BoatSearchResults />
+    </lightning:card>
+    -->
+</aura:component>

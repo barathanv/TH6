@@ -1,0 +1,41 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes"
+                access="global" >
+	
+    <aura:handler event="c:BoatSelected" action="{!c.onBoatSelected}"  />
+    <aura:attribute name="boat" type="Boat__c" access="public" />
+    <aura:attribute name="record" type="Object" /> 
+    <aura:attribute name="id" type="Id"  default="" access="public" />
+	<aura:attribute name="recordError" type="String" />
+    <aura:handler name="BoatReviewAdded" event="c:BoatReviewAdded" action="{!c.onBoatReviewAdded}"/>
+    
+    <!-- <aura:handler name="init" action="{!c.doInit}" value="{!this}" /> -->
+    
+    <!-- <aura:if isTrue="{! !(empty(v.id))}"> -->
+    <force:recordData aura:id="service"
+    recordId="{!v.id}"
+    fields="Id,Name,Description__c,Price__c,Length__c,Contact__r.Name,Contact__r.Email,Contact__r.HomePhone,BoatType__r.Name,Picture__c"
+    targetError="{!v.recordError}"
+    targetFields ="{!v.boat}"
+    mode="VIEW"
+    recordUpdated="{!c.onRecordUpdated}" />
+    
+    
+   <!-- <aura:if isTrue="{! !(empty(v.boat))}">  -->
+    {!v.id}	
+    <lightning:tabset aura:id="tabs">
+    	<lightning:tab label="Details" id="boatDetailsTab">
+            <c:BoatDetail boat="{!v.boat}" />
+    	</lightning:tab>
+        <lightning:tab label="Reviews" id="boatreviewtab">
+            <c:BoatReviews boat="{!v.boat}" aura:id="boatReviewsCmp" />
+    	</lightning:tab>
+        <lightning:tab label="Add Review" id="boatAddReviewTab">
+            <c:AddBoatReview boat="{!v.boat}" aura:id="addReviewCmp" />
+    	</lightning:tab>
+	</lightning:tabset>
+    <!-- </aura:if> -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+    <div class="recordError">
+        {!v.recordError}</div>
+</aura:if>
+</aura:component>

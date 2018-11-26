@@ -1,0 +1,79 @@
+<aura:component implements="flexipage:availableForAllPageTypes" 
+                access="global"
+                controller="BoatReviews">
+	
+    <aura:method name="refresh" action="{!c.doInit}" 
+  				  description="refresh boat reviews"
+                  access="public" >
+	</aura:method>
+    <aura:attribute name="boat" type="Boat__c" access="public" />
+    <aura:attribute name="boatReviews" type="BoatReview__c[]" access="private" />
+    <aura:handler   name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="showReviews" type="Boolean" default="true" />
+    <aura:handler   name="change" value="{!v.boat}" action="{!c.doInit}"/>
+    
+    <div>
+        <lightning:layout>
+            <aura:if isTrue="{!(v.showReviews)}">
+            <lightning:layoutItem flexibility="grow"
+                                  size="{! $Browser.isDesktop ? '12' : '6' }">
+                <!-- <div class="slds-scrollable" style="height: 250px;">     -->
+                <ui:scrollerWrapper class="scrollerSize">    
+                <aura:iteration items="{!v.boatReviews}" var="boatReview" >
+					 <div class="slds-feed">
+                        <ul class="slds-feed__list">
+                            <li class="slds-feed__item">
+                              <article class="slds-post">
+                                <header class="slds-post__header slds-media">
+                                  <div class="slds-media__figure">
+                                    <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large" 
+                                       >
+                                      <img alt="{!boatReview.CreatedBy.Name}" src="{!boatReview.CreatedBy.SmallPhotoUrl}" title="{! boatReview.CreatedBy.Name + ' avatar'}" />
+                                    </a>
+                                  </div>
+                                  <div class="slds-media__body">
+                                    <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                      <p><a title="{!boatReview.CreatedBy.Name}"
+                                            onclick="{!c.onUserInfoClick}"
+                                            data-userid="{!boatReview.CreatedBy.Id}" 
+                                          >{!boatReview.CreatedBy.Name}</a> — 
+                                         {!boatReview.CreatedBy.CompanyName}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </header>
+                                <div class="slds-post__content slds-text-longform">
+                                  <span>{!boatReview.Name}</span>
+                                  <span><ui:outputRichText class="slds-text-longform" value="{!boatReview.Comment__c}"/></span>                
+                                  <span><c:FiveStarRating value="{!v.boatReview.Rating__c}" readonly="true"/> </span> 
+                                  </div>
+                                <footer class="slds-post__footer">
+                                   
+                                </footer>
+                              </article>
+                              </li>
+                            </ul>
+                        </div>
+                </aura:iteration>
+                </ui:scrollerWrapper>
+                <!--</div>-->
+            </lightning:layoutItem>
+            </aura:if><!-- scrollable div -->
+            <aura:if isTrue="{!v.boatReviews.length==0}">
+		     	<lightning:layoutItem class="slds-align_absolute-center" flexibility="auto" 
+					padding="around-small">   
+        	      <ui:outputText value="No reviews available" />
+        		</lightning:layoutItem>
+    		</aura:if>
+            
+           <!-- <aura:if isTrue="{! !(v.showReviews)}">
+            <lightning:layoutItem class="slds-align_absolute-center" flexibility="auto" padding="around-small">
+                        <ui:outputText value="No Reviews Available" />
+                    </lightning:layoutItem>
+            </aura:if>    -->
+        </lightning:layout>
+    </div>
+    
+   
+    
+</aura:component>
